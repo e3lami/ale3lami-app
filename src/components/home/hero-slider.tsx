@@ -8,26 +8,24 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
   type CarouselApi,
 } from '@/components/ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import type { WP_Post } from '@/types/wordpress';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { cn } from '@/lib/utils';
+import { cn, stripHtml } from '@/lib/utils';
 
 interface HeroSliderProps {
   posts: WP_Post[];
-}
-
-function stripHtml(html: string) {
-  return html.replace(/<[^>]*>?/gm, '');
 }
 
 export default function HeroSlider({ posts }: HeroSliderProps) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   
-  const plugin = React.useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
+  const plugin = React.useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
 
   React.useEffect(() => {
     if (!api) {
@@ -44,7 +42,7 @@ export default function HeroSlider({ posts }: HeroSliderProps) {
   }
 
   return (
-    <div className="py-8 md:py-12 relative">
+    <div className="py-8 md:py-12 relative container mx-auto px-4">
       <Carousel
         setApi={setApi}
         plugins={[plugin.current]}
@@ -65,7 +63,7 @@ export default function HeroSlider({ posts }: HeroSliderProps) {
             return (
               <CarouselItem key={post.id}>
                 <Link href={`/article/${post.slug}`} className="group block">
-                  <Card className="overflow-hidden border-none shadow-xl rounded-lg">
+                  <Card className="overflow-hidden border-none shadow-2xl shadow-black/50 rounded-2xl">
                     <CardContent className="p-0 relative aspect-[16/9] md:aspect-[21/9]">
                       <Image
                         src={imageUrl}
@@ -88,6 +86,8 @@ export default function HeroSlider({ posts }: HeroSliderProps) {
             );
           })}
         </CarouselContent>
+        <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 h-12 w-12 text-white bg-black/30 hover:bg-black/50 border-none disabled:hidden" />
+        <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 h-12 w-12 text-white bg-black/30 hover:bg-black/50 border-none disabled:hidden" />
       </Carousel>
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2" dir="ltr">
         {posts.map((_, index) => (

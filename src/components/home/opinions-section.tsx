@@ -13,10 +13,10 @@ export default function OpinionsSection({ posts }: OpinionsSectionProps) {
     return null;
   }
   return (
-    <section className="py-8 bg-card">
+    <section className="py-8 my-8 bg-card/50 backdrop-blur-sm border-y border-white/10">
         <div className="container mx-auto px-4">
             <SectionHeader title={'أقلام'} icon={Pen} />
-            <div className="flex flex-col divide-y">
+            <div className="flex flex-col divide-y divide-white/10">
                 {posts.map((post) => (
                     <div key={post.id} className="py-6">
                         <OpinionCard post={post} />

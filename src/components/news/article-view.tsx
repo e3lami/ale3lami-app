@@ -1,24 +1,26 @@
 'use client';
-import { useMemo } from 'react';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import ShareButtons from '@/components/news/share-buttons';
 import type { WP_Post } from '@/types/wordpress';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { format } from 'date-fns';
-import { ar } from 'date-fns/locale';
+import { ar } from 'date-fns/locale/ar';
 import RelatedArticlesSection from './related-articles-section';
-import { cn } from '@/lib/utils';
-import BookmarkButton from './bookmark-button';
+import { cn, stripHtml } from '@/lib/utils';
+import { Bot, Send } from 'lucide-react';
+import type { DailymotionVideo } from '@/types/dailymotion';
+import DailymotionVideos from './dailymotion-videos';
 
-function stripHtml(html: string): string {
-  if (!html) return '';
-  return html.replace(/<[^>]*>?/gm, '');
+type ArticleViewProps = { 
+    post: WP_Post;
+    relatedPosts: WP_Post[];
+    videos: DailymotionVideo[];
 }
 
-export default function ArticleView({ post, relatedPosts }: { post: WP_Post, relatedPosts: WP_Post[] }) {
-    const originalTitle = useMemo(() => stripHtml(post.title.rendered), [post.title.rendered]);
-    const originalContent = useMemo(() => post.content.rendered, [post.content.rendered]);
+export default function ArticleView({ post, relatedPosts, videos }: ArticleViewProps) {
+    const title = stripHtml(post.title.rendered);
+    const contentHtml = post.content.rendered;
     
     const imageUrl = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || PlaceHolderImages[0].imageUrl;
     const imageHint = post._embedded?.['wp:featuredmedia']?.[0]?.alt_text || PlaceHolderImages[0].imageHint;
@@ -30,11 +32,11 @@ export default function ArticleView({ post, relatedPosts }: { post: WP_Post, rel
     return (
         <>
             <main className="container mx-auto max-w-4xl px-4 py-8">
-                <article className="bg-card rounded-xl shadow-lg overflow-hidden">
+                <article className="bg-card/50 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden border border-white/10">
                 <div className="relative w-full aspect-video">
                     <Image
                     src={imageUrl}
-                    alt={originalTitle}
+                    alt={title}
                     fill
                     className="object-cover"
                     data-ai-hint={imageHint}
@@ -49,24 +51,47 @@ export default function ArticleView({ post, relatedPosts }: { post: WP_Post, rel
                             </Badge>
                             {authorName && <span>بواسطة: {authorName}</span>}
                         </div>
-                        <BookmarkButton post={post} />
                     </div>
-                    <h1 className="text-3xl md:text-5xl font-bold font-headline mb-6 text-card-foreground leading-tight">
-                    {originalTitle}
+
+                    <h1 className="text-xl md:text-3xl font-bold font-headline mb-6 text-foreground leading-tight">
+                        {title}
                     </h1>
                     
                     <div
                         id="article-content-body"
                         className={cn(
-                            "prose prose-lg max-w-none text-foreground prose-p:leading-relaxed prose-headings:font-headline prose-headings:text-card-foreground prose-a:text-primary hover:prose-a:underline"
+                            "prose prose-lg max-w-none text-foreground prose-headings:font-headline prose-headings:text-foreground prose-a:text-primary hover:prose-a:underline prose-p:leading-relaxed"
                         )}
-                        dangerouslySetInnerHTML={{ __html: originalContent }}
+                        style={{ lineHeight: 1.8 }}
+                        dangerouslySetInnerHTML={{ __html: contentHtml }}
                     />
                 </div>
                 </article>
+                <div className="my-12 flex flex-col items-center gap-4">
+                    <a
+                        href="https://t.me/ale3lami"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-3 px-8 py-4 font-bold text-white rounded-lg transition-transform hover:scale-105"
+                        style={{ backgroundColor: '#0088cc' }}
+                    >
+                        <Send className="h-6 w-6" />
+                        <span>انضم إلينا على تليجرام</span>
+                    </a>
+                     <a
+                        href="https://hadis.zapier.app/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-3 px-8 py-4 font-bold text-primary-foreground bg-primary rounded-lg transition-transform hover:scale-105"
+                    >
+                        <Bot className="h-6 w-6" />
+                        <span>مساعد موقع الإعلامي</span>
+                    </a>
+                </div>
                 <RelatedArticlesSection posts={relatedPosts} />
+                <DailymotionVideos videos={videos} />
             </main>
-            <ShareButtons title={originalTitle} url={`/article/${post.slug}`} />
+            <ShareButtons title={title} url={`/article/${post.slug}`} />
         </>
     );
 }

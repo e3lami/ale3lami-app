@@ -14,9 +14,9 @@ export default function MiscSection({ posts }: MiscSectionProps) {
   return (
     <section className="py-8">
       <SectionHeader title={'متفرقات'} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="space-y-6">
         {posts.map((post) => (
-          <ArticleCard key={post.id} post={post} />
+          <ArticleCard key={post.id} post={post} layout="horizontal" />
         ))}
       </div>
     </section>

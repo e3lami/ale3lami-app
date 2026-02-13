@@ -9,10 +9,7 @@ export default function ArticleLoading() {
         <div className="bg-card rounded-xl shadow-lg overflow-hidden">
           <Skeleton className="w-full aspect-video" />
           <div className="p-6 md:p-10 space-y-6">
-            <div className="flex justify-between items-center">
-              <Skeleton className="h-6 w-32" />
-              <Skeleton className="h-10 w-10 rounded-md" />
-            </div>
+            <Skeleton className="h-6 w-32" />
             <Skeleton className="h-10 w-3/4" />
             <div className="space-y-4 mt-4">
               <Skeleton className="h-5 w-full" />
@@ -26,7 +23,7 @@ export default function ArticleLoading() {
         </div>
         
         {/* Skeleton for Related Articles */}
-        <div className="mt-12 py-8 border-t">
+        <div className="mt-12 py-8 border-t border-white/10">
             <Skeleton className="h-8 w-48 mb-6" />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {Array.from({ length: 3 }).map((_, i) => (
@@ -36,6 +33,22 @@ export default function ArticleLoading() {
                     <Skeleton className="h-4 w-[100px]" />
                     <Skeleton className="h-6 w-full" />
                     <Skeleton className="h-4 w-[80%]" />
+                    </div>
+                </div>
+                ))}
+            </div>
+        </div>
+
+        {/* Skeleton for Dailymotion Videos */}
+        <div className="mt-12 py-8 border-t border-white/10">
+            <Skeleton className="h-8 w-64 mb-6" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="flex flex-col space-y-3">
+                    <Skeleton className="h-[160px] w-full rounded-xl" />
+                    <div className="p-4">
+                        <Skeleton className="h-5 w-full" />
+                        <Skeleton className="h-5 w-[80%] mt-2" />
                     </div>
                 </div>
                 ))}

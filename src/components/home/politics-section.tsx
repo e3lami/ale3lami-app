@@ -14,9 +14,11 @@ export default function PoliticsSection({ posts }: PoliticsSectionProps) {
   return (
     <section className="py-8">
       <SectionHeader title={'السياسية'} accentColor="#EF4444" />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="flex gap-6 overflow-x-auto pb-4 -mx-4 px-4">
         {posts.map((post) => (
-          <ArticleCard key={post.id} post={post} />
+          <div key={post.id} className="flex-shrink-0 w-[80vw] sm:w-[40vw] md:w-[28vw] lg:w-[22vw]">
+            <ArticleCard post={post} />
+          </div>
         ))}
       </div>
     </section>

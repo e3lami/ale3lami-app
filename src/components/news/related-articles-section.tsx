@@ -14,7 +14,7 @@ export default function RelatedArticlesSection({ posts }: RelatedArticlesSection
   }
 
   return (
-    <section className="mt-12 py-8 border-t">
+    <section className="mt-12 py-8 border-t border-white/10">
       <SectionHeader title={'قد يعجبك أيضاً'} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post) => (

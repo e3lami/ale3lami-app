@@ -3,17 +3,14 @@ import { notFound } from 'next/navigation';
 import Header from '@/components/layout/header';
 import ArticleView from '@/components/news/article-view';
 import { CATEGORIES } from '@/lib/categories';
+import { stripHtml } from '@/lib/utils';
+import { getLatestVideos } from '@/lib/dailymotion';
 
 type ArticlePageProps = {
   params: {
     slug: string;
   };
 };
-
-function stripHtml(html: string): string {
-  if (!html) return '';
-  return html.replace(/<[^>]*>?/gm, '');
-}
 
 export async function generateMetadata({ params }: ArticlePageProps) {
   const post = await getPostBySlug(params.slug);
@@ -45,10 +42,12 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     .sort(() => 0.5 - Math.random()) // Shuffle
     .slice(0, 3); // Take the first 3
 
+  const videos = await getLatestVideos(5);
+
   return (
     <>
       <Header />
-      <ArticleView post={post} relatedPosts={relatedPosts} />
+      <ArticleView post={post} relatedPosts={relatedPosts} videos={videos} />
     </>
   );
 }
