@@ -1,0 +1,24 @@
+'use client';
+import type { WP_Post } from '@/types/wordpress';
+import ArticleCard from '@/components/news/article-card';
+import SectionHeader from './section-header';
+
+interface MiscSectionProps {
+  posts: WP_Post[];
+}
+
+export default function MiscSection({ posts }: MiscSectionProps) {
+  if (!posts || posts.length === 0) {
+    return null;
+  }
+  return (
+    <section className="py-8">
+      <SectionHeader title={'متفرقات'} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.map((post) => (
+          <ArticleCard key={post.id} post={post} />
+        ))}
+      </div>
+    </section>
+  );
+}

@@ -1,0 +1,24 @@
+.ticker-wrapper {
+    width: 100%;
+    overflow: hidden;
+}
+.ticker-content {
+    display: inline-flex;
+    animation: ticker-scroll 40s linear infinite;
+    will-change: transform;
+}
+.ticker-wrapper:hover .ticker-content {
+    animation-play-state: paused;
+}
+.ticker-item {
+    display: inline-block;
+    color: white;
+}
+@keyframes ticker-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
