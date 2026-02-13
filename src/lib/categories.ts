@@ -1,6 +1,6 @@
 export const CATEGORIES = {
   home: { id: -1, name: 'الرئيسية', slug: '' },
-  politics: { id: 17, name: 'السياسية', slug: 'politics' },
+  politics: { id: 1935, name: 'السياسية', slug: 'politics' },
   miscellaneous: { id: 1, name: 'متفرقات', slug: 'miscellaneous' },
   opinions: { id: 100, name: 'أقلام', slug: 'opinions' },
   featured: { id: 1, name: 'متفرقات', slug: 'featured' } // Using miscellaneous as featured for hero
